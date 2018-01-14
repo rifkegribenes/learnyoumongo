@@ -1,10 +1,16 @@
-const url = 'mongodb://localhost:27017/learnyoumongo';
+const url = `mongodb://localhost:27017/${process.argv[2]}`;
 var mongo = require('mongodb').MongoClient
   mongo.connect(url, function(err, db) {
     if (err) throw err;
     const users = db.collection('users');
-    const obj = {firstName: process.argv[2], lastName: process.argv[3]};
-    users.insert(obj);
-    console.log(JSON.stringify(obj));
-  	db.close();
+    users.update({
+      username: "tinatime"
+    }, {
+      $set: {
+        age: 40
+      }
+    }, (err) => {
+      if (err) throw err;
+      db.close();
+    });
 });
